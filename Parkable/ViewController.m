@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "UIColor+AppColors.h"
+#import "PRKSpot.h"
 
 #define kStatusBarHeight (([[UIApplication sharedApplication] statusBarFrame].size.height == 20.0f) ? 20.0f : (([[UIApplication sharedApplication] statusBarFrame].size.height == 40.0f) ? 20.0f : 0.0f))
 
@@ -41,6 +42,7 @@ static CGFloat const footerHeight = 50.0f;
 	CGSize _lastFrameSize;
 	UITextField *_alertControllerTextField;
 	MKPointAnnotation *_destinationPointAnnotation;
+	NSMutableArray *_spotsNearDestination;
 	BOOL _animateEllipses;
 }
 
@@ -253,7 +255,7 @@ static CGFloat const footerHeight = 50.0f;
 		CLPlacemark *destinationPlaceMark = [PRKDataManager destinationPlaceMark];
 		_destinationPointAnnotation.coordinate = destinationPlaceMark.location.coordinate;
 		_destinationPointAnnotation.title = [PRKDataManager destinationName];
-		_destinationPointAnnotation.subtitle = @"Searching for spots near here";
+		_destinationPointAnnotation.subtitle = @"Searching for spots near here   ";
 		
 		// Zoom in to the correct location
 		MKCoordinateRegion region = self.mapView.region;
@@ -262,11 +264,21 @@ static CGFloat const footerHeight = 50.0f;
 		region.span.latitudeDelta /= 3600.0;
 		
 		// Add point to the mapView
-		[self.mapView setRegion:region animated:YES];
+		[self.mapView setRegion:region
+					   animated:YES];
 		[self.mapView addAnnotation:_destinationPointAnnotation];
 		
 		// Select the PointAnnotation programatically
-		[self.mapView selectAnnotation:_destinationPointAnnotation animated:NO];
+		[self.mapView selectAnnotation:_destinationPointAnnotation
+							  animated:NO];
+		
+		[self performSelector:@selector(checkForSpots)
+				   withObject:self
+				   afterDelay:0.25f];
+		_animateEllipses = YES;
+		[self performSelector:@selector(animatePoint:)
+				   withObject:@(0)
+				   afterDelay:0.25f];
 	} else {
 		[self performSelector:@selector(checkForDestinationUpdate)
 				   withObject:self
@@ -274,8 +286,96 @@ static CGFloat const footerHeight = 50.0f;
 	}
 }
 
-- (void)animatePoint {
+- (void)checkForSpots {
+	if ([PRKDataManager spotsNearDestination].count > 0) {
+		_animateEllipses = NO;
+		
+		if (_spotsNearDestination) {
+			for (MKPointAnnotation *pointAnnotation in _spotsNearDestination) {
+				[self.mapView removeAnnotation:pointAnnotation];
+			}
+			
+			[_spotsNearDestination removeAllObjects];
+		} else {
+			_spotsNearDestination = [[NSMutableArray alloc] init];
+		}
+		
+		NSArray *spots = [PRKDataManager spotsNearDestination];
+		NSInteger totalNumberOfSpots = 0;
+		for (PRKSpot *spot in spots) {
+			MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
+			point.coordinate = spot.coordinate;
+			point.title = spot.title;
+			point.subtitle = [NSString stringWithFormat:@"%zd Spot%@", spot.numberOfSpots, spot.numberOfSpots == 1 ? @"" : @"s"];
+			[self.mapView addAnnotation:point];
+			[_spotsNearDestination addObject:point];
+			totalNumberOfSpots += spot.numberOfSpots;
+		}
+		
+		[self.mapView setRegion:[self regionFromLocations]
+					   animated:YES];
+		
+		_destinationPointAnnotation.subtitle = [NSString stringWithFormat:@"%zd spot%@ near here", totalNumberOfSpots, totalNumberOfSpots == 1 ? @"" : @"s"];
+	} else {
+		[self performSelector:@selector(checkForSpots)
+				   withObject:self
+				   afterDelay:0.25f];
+	}
+}
+
+- (MKCoordinateRegion)regionFromLocations {
+	CLLocationCoordinate2D upper = [PRKDataManager destinationPlaceMark].location.coordinate;
+	CLLocationCoordinate2D lower = [PRKDataManager destinationPlaceMark].location.coordinate;
 	
+	NSMutableArray *spots = [[NSMutableArray alloc] initWithArray:[PRKDataManager spotsNearDestination]];
+	[spots addObject:[PRKSpot spotWithCoordinate:_destinationPointAnnotation.coordinate]];
+	for (PRKSpot *spot in spots) {
+		if(spot.coordinate.latitude > upper.latitude) upper.latitude = spot.coordinate.latitude;
+		if(spot.coordinate.latitude < lower.latitude) lower.latitude = spot.coordinate.latitude;
+		if(spot.coordinate.longitude > upper.longitude) upper.longitude = spot.coordinate.longitude;
+		if(spot.coordinate.longitude < lower.longitude) lower.longitude = spot.coordinate.longitude;
+	}
+	
+	MKCoordinateSpan locationSpan;
+	locationSpan.latitudeDelta = upper.latitude - lower.latitude;
+	locationSpan.longitudeDelta = upper.longitude - lower.longitude;
+	locationSpan.latitudeDelta *= 1.1f;
+	locationSpan.longitudeDelta *= 1.1f;
+	CLLocationCoordinate2D locationCenter;
+	locationCenter.latitude = (upper.latitude + lower.latitude) / 2;
+	locationCenter.longitude = (upper.longitude + lower.longitude) / 2;
+	
+	MKCoordinateRegion region = MKCoordinateRegionMake(locationCenter, locationSpan);
+	return region;
+}
+
+- (void)animatePoint:(NSNumber *)ellipses {
+	if (!_animateEllipses) {
+		return;
+	}
+	
+	int numberOfDots = [ellipses intValue];
+	switch (numberOfDots) {
+		case 0:
+			_destinationPointAnnotation.subtitle = @"Searching for spots near here.  ";
+			break;
+			
+		case 1:
+			_destinationPointAnnotation.subtitle = @"Searching for spots near here.. ";
+			break;
+			
+		case 2:
+			_destinationPointAnnotation.subtitle = @"Searching for spots near here...";
+			break;
+			
+		default:
+			break;
+	}
+	
+	numberOfDots++;
+	numberOfDots %= 3;
+	
+	[self performSelector:@selector(animatePoint:) withObject:@(numberOfDots) afterDelay:0.25f];
 }
 
 

@@ -11,6 +11,10 @@
 
 @interface PRKSpot : NSObject
 
++ (instancetype)spotWithCoordinate:(CLLocationCoordinate2D)coordinate;
+
+- (instancetype)initWithCoordinate:(CLLocationCoordinate2D)coordinate;
+
 @property (nonatomic) CLLocationCoordinate2D coordinate;
 
 @property (nonatomic, strong) NSString *title;

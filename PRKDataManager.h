@@ -38,6 +38,8 @@
 + (CLPlacemark *)destinationPlaceMark;
 + (NSString *)destinationName;
 
++ (NSArray *)spotsNearDestination;
+
 
 
 @end

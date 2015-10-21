@@ -15,12 +15,15 @@ static NSString * const locationPermissionHasBeenRequestedKey = @"locationPermis
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
 
+@property (nonatomic, strong) NSMutableArray *spotsNearDestination;
+
 @end
 
 @implementation PRKDataManager {
 	CLLocationCoordinate2D _currentLocationCoordinate;
 	CLPlacemark *_destinationPlaceMark;
 	NSString *_destinationName;
+	int numberOfTries;
 }
 
 +(instancetype)sharedDataManager {
@@ -40,6 +43,7 @@ static NSString * const locationPermissionHasBeenRequestedKey = @"locationPermis
 	
 	if (self) {
 		[self startLocationManager];
+		self.spotsNearDestination = [NSMutableArray new];
 	}
 	
 	return self;
@@ -100,6 +104,43 @@ static NSString * const locationPermissionHasBeenRequestedKey = @"locationPermis
 - (NSString *)destinationName {
 	return _destinationName;
 }
+
+
+
+
+
+
+
+#pragma mark - Parking Spots
+
++ (NSArray *)spotsNearDestination {
+	return [[PRKDataManager sharedDataManager] spotsNearDestination];
+}
+
+- (NSArray *)spotsNearDestination {
+	if (numberOfTries < 20) {
+		numberOfTries ++;
+		return @[];
+	}
+	
+	PRKSpot *spot1 = [PRKSpot spotWithCoordinate:CLLocationCoordinate2DMake(42.3595269, -71.0653017)];
+	spot1.title = @"19 Myrtle St., \nBeacon Hill Area, 02114";
+	spot1.numberOfSpots = 2;
+	PRKSpot *spot2 = [PRKSpot spotWithCoordinate:CLLocationCoordinate2DMake(42.3650128, -71.0534021)];
+	spot2.title = @"348	Hanover St., \nNorth End Boston, 02113";
+	spot2.numberOfSpots = 1;
+	PRKSpot *spot3 = [PRKSpot spotWithCoordinate:CLLocationCoordinate2DMake(42.361725, -71.052331)];
+	spot3.title = @"101	Atlantic Ave., \nNorth End Boston, 02110";
+	spot3.numberOfSpots = 2;
+	
+	NSArray *dummyData = @[spot1, spot2, spot3];
+	return dummyData;
+	
+	return self.spotsNearDestination;
+}
+
+
+
 
 - (void)startLocationManager {
 	self.locationManager = [[CLLocationManager alloc] init];

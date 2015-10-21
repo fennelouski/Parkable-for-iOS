@@ -120,12 +120,8 @@
 			children = (
 				278B8E931BD80DBA00C9F541 /* AppDelegate.h */,
 				278B8E941BD80DBA00C9F541 /* AppDelegate.m */,
-				278B8E961BD80DBA00C9F541 /* ViewController.h */,
-				278B8E971BD80DBA00C9F541 /* ViewController.m */,
-				278B8EC91BD8213E00C9F541 /* PRKDataManager.h */,
-				278B8ECA1BD8213E00C9F541 /* PRKDataManager.m */,
-				278B8ED11BD8369C00C9F541 /* PRKSpot.h */,
-				278B8ED21BD8369C00C9F541 /* PRKSpot.m */,
+				278B8ED51BD8377F00C9F541 /* Controllers */,
+				278B8ED41BD8377900C9F541 /* Data */,
 				278B8E991BD80DBA00C9F541 /* Main.storyboard */,
 				278B8E9C1BD80DBA00C9F541 /* Assets.xcassets */,
 				278B8E9E1BD80DBA00C9F541 /* LaunchScreen.storyboard */,
@@ -169,6 +165,26 @@
 				278B8EC41BD819D400C9F541 /* UIColor+AppColors.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		278B8ED41BD8377900C9F541 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				278B8EC91BD8213E00C9F541 /* PRKDataManager.h */,
+				278B8ECA1BD8213E00C9F541 /* PRKDataManager.m */,
+				278B8ED11BD8369C00C9F541 /* PRKSpot.h */,
+				278B8ED21BD8369C00C9F541 /* PRKSpot.m */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		278B8ED51BD8377F00C9F541 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				278B8E961BD80DBA00C9F541 /* ViewController.h */,
+				278B8E971BD80DBA00C9F541 /* ViewController.m */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
