@@ -10,7 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "PRKDataManager.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <UITextFieldDelegate>
 
 
 @property (nonatomic, strong) MKMapView *mapView;
