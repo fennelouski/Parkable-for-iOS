@@ -40,6 +40,8 @@ static CGFloat const footerHeight = 50.0f;
 @implementation ViewController {
 	CGSize _lastFrameSize;
 	UITextField *_alertControllerTextField;
+	MKPointAnnotation *_destinationPointAnnotation;
+	BOOL _animateEllipses;
 }
 
 - (void)viewDidLoad {
@@ -217,14 +219,17 @@ static CGFloat const footerHeight = 50.0f;
 	
 	UIAlertAction *searchAction = [UIAlertAction actionWithTitle:@"Search"
 														   style:UIAlertActionStyleDefault
-														 handler:^(UIAlertAction * _Nonnull action) {
+														 handler:^(UIAlertAction *action) {
 															 NSLog(@"Search for location: %@", _alertControllerTextField.text);
+															 [PRKDataManager findLocationCoordinatesForString:_alertControllerTextField.text];
+															 [self.mapView removeAnnotations:self.mapView.annotations];
+															 [self checkForDestinationUpdate];
 														 }];
 	[addressController addAction:searchAction];
 	
 	UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
 														   style:UIAlertActionStyleCancel
-														 handler:^(UIAlertAction * _Nonnull action) {
+														 handler:^(UIAlertAction *action) {
 															 
 														 }];
 	[addressController addAction:cancelAction];
@@ -235,6 +240,42 @@ static CGFloat const footerHeight = 50.0f;
 					 completion:^{
 						 
 					 }];
+}
+
+
+
+#pragma mark - Add Annotations
+
+- (void)checkForDestinationUpdate {
+	if ([PRKDataManager destinationPlaceMark]) {
+		// Create an editable PointAnnotation, using placemark's coordinates, and set your own title/subtitle
+		_destinationPointAnnotation = [[MKPointAnnotation alloc] init];
+		CLPlacemark *destinationPlaceMark = [PRKDataManager destinationPlaceMark];
+		_destinationPointAnnotation.coordinate = destinationPlaceMark.location.coordinate;
+		_destinationPointAnnotation.title = [PRKDataManager destinationName];
+		_destinationPointAnnotation.subtitle = @"Searching for spots near here";
+		
+		// Zoom in to the correct location
+		MKCoordinateRegion region = self.mapView.region;
+		region.center = [PRKDataManager destinationPlaceMark].region.center;
+		region.span.longitudeDelta /= 3600.0;
+		region.span.latitudeDelta /= 3600.0;
+		
+		// Add point to the mapView
+		[self.mapView setRegion:region animated:YES];
+		[self.mapView addAnnotation:_destinationPointAnnotation];
+		
+		// Select the PointAnnotation programatically
+		[self.mapView selectAnnotation:_destinationPointAnnotation animated:NO];
+	} else {
+		[self performSelector:@selector(checkForDestinationUpdate)
+				   withObject:self
+				   afterDelay:0.25f];
+	}
+}
+
+- (void)animatePoint {
+	
 }
 
 
