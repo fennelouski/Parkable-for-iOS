@@ -15,6 +15,7 @@
 		278B8EA01BD80DBA00C9F541 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 278B8E9E1BD80DBA00C9F541 /* LaunchScreen.storyboard */; };
 		278B8EAB1BD80DBA00C9F541 /* ParkableTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 278B8EAA1BD80DBA00C9F541 /* ParkableTests.m */; };
 		278B8EB61BD80DBA00C9F541 /* ParkableUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 278B8EB51BD80DBA00C9F541 /* ParkableUITests.m */; };
+		278B8EC51BD819D400C9F541 /* UIColor+AppColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 278B8EC41BD819D400C9F541 /* UIColor+AppColors.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,8 @@
 		278B8EB11BD80DBA00C9F541 /* ParkableUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParkableUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		278B8EB51BD80DBA00C9F541 /* ParkableUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParkableUITests.m; sourceTree = "<group>"; };
 		278B8EB71BD80DBA00C9F541 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		278B8EC31BD819D400C9F541 /* UIColor+AppColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+AppColors.h"; sourceTree = "<group>"; };
+		278B8EC41BD819D400C9F541 /* UIColor+AppColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+AppColors.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +84,8 @@
 		278B8E841BD80DBA00C9F541 = {
 			isa = PBXGroup;
 			children = (
+				278B8EC31BD819D400C9F541 /* UIColor+AppColors.h */,
+				278B8EC41BD819D400C9F541 /* UIColor+AppColors.m */,
 				278B8E8F1BD80DBA00C9F541 /* Parkable */,
 				278B8EA91BD80DBA00C9F541 /* ParkableTests */,
 				278B8EB41BD80DBA00C9F541 /* ParkableUITests */,
@@ -271,6 +276,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				278B8E981BD80DBA00C9F541 /* ViewController.m in Sources */,
+				278B8EC51BD819D400C9F541 /* UIColor+AppColors.m in Sources */,
 				278B8E951BD80DBA00C9F541 /* AppDelegate.m in Sources */,
 				278B8E921BD80DBA00C9F541 /* main.m in Sources */,
 			);
