@@ -7,7 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 
 @interface PRKSpot : NSObject
+
+@property (nonatomic) CLLocationCoordinate2D coordinate;
+
+@property (nonatomic, strong) NSString *title;
+
+@property (nonatomic) NSInteger numberOfSpots;
 
 @end

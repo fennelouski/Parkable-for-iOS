@@ -7,6 +7,7 @@
 //
 
 #import "PRKDataManager.h"
+#import "PRKSpot.h"
 
 static NSString * const locationPermissionHasBeenRequestedKey = @"locationPermissionHasBeenRequestedKey";
 

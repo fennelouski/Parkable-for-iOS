@@ -19,6 +19,7 @@
 		278B8EC81BD81ED200C9F541 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 278B8EC71BD81ED200C9F541 /* MapKit.framework */; };
 		278B8ECB1BD8213E00C9F541 /* PRKDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 278B8ECA1BD8213E00C9F541 /* PRKDataManager.m */; settings = {ASSET_TAGS = (); }; };
 		278B8ECD1BD8216700C9F541 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 278B8ECC1BD8216700C9F541 /* CoreLocation.framework */; };
+		278B8ED31BD8369C00C9F541 /* PRKSpot.m in Sources */ = {isa = PBXBuildFile; fileRef = 278B8ED21BD8369C00C9F541 /* PRKSpot.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,8 @@
 		278B8EC91BD8213E00C9F541 /* PRKDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PRKDataManager.h; path = ../PRKDataManager.h; sourceTree = "<group>"; };
 		278B8ECA1BD8213E00C9F541 /* PRKDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PRKDataManager.m; path = ../PRKDataManager.m; sourceTree = "<group>"; };
 		278B8ECC1BD8216700C9F541 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		278B8ED11BD8369C00C9F541 /* PRKSpot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PRKSpot.h; path = ../PRKSpot.h; sourceTree = "<group>"; };
+		278B8ED21BD8369C00C9F541 /* PRKSpot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PRKSpot.m; path = ../PRKSpot.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +124,8 @@
 				278B8E971BD80DBA00C9F541 /* ViewController.m */,
 				278B8EC91BD8213E00C9F541 /* PRKDataManager.h */,
 				278B8ECA1BD8213E00C9F541 /* PRKDataManager.m */,
+				278B8ED11BD8369C00C9F541 /* PRKSpot.h */,
+				278B8ED21BD8369C00C9F541 /* PRKSpot.m */,
 				278B8E991BD80DBA00C9F541 /* Main.storyboard */,
 				278B8E9C1BD80DBA00C9F541 /* Assets.xcassets */,
 				278B8E9E1BD80DBA00C9F541 /* LaunchScreen.storyboard */,
@@ -297,6 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				278B8E981BD80DBA00C9F541 /* ViewController.m in Sources */,
+				278B8ED31BD8369C00C9F541 /* PRKSpot.m in Sources */,
 				278B8ECB1BD8213E00C9F541 /* PRKDataManager.m in Sources */,
 				278B8EC51BD819D400C9F541 /* UIColor+AppColors.m in Sources */,
 				278B8E951BD80DBA00C9F541 /* AppDelegate.m in Sources */,
