@@ -16,6 +16,9 @@
 		278B8EAB1BD80DBA00C9F541 /* ParkableTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 278B8EAA1BD80DBA00C9F541 /* ParkableTests.m */; };
 		278B8EB61BD80DBA00C9F541 /* ParkableUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 278B8EB51BD80DBA00C9F541 /* ParkableUITests.m */; };
 		278B8EC51BD819D400C9F541 /* UIColor+AppColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 278B8EC41BD819D400C9F541 /* UIColor+AppColors.m */; settings = {ASSET_TAGS = (); }; };
+		278B8EC81BD81ED200C9F541 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 278B8EC71BD81ED200C9F541 /* MapKit.framework */; };
+		278B8ECB1BD8213E00C9F541 /* PRKDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 278B8ECA1BD8213E00C9F541 /* PRKDataManager.m */; settings = {ASSET_TAGS = (); }; };
+		278B8ECD1BD8216700C9F541 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 278B8ECC1BD8216700C9F541 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,8 +55,12 @@
 		278B8EB11BD80DBA00C9F541 /* ParkableUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParkableUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		278B8EB51BD80DBA00C9F541 /* ParkableUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParkableUITests.m; sourceTree = "<group>"; };
 		278B8EB71BD80DBA00C9F541 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		278B8EC31BD819D400C9F541 /* UIColor+AppColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+AppColors.h"; sourceTree = "<group>"; };
-		278B8EC41BD819D400C9F541 /* UIColor+AppColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+AppColors.m"; sourceTree = "<group>"; };
+		278B8EC31BD819D400C9F541 /* UIColor+AppColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+AppColors.h"; path = "../UIColor+AppColors.h"; sourceTree = "<group>"; };
+		278B8EC41BD819D400C9F541 /* UIColor+AppColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+AppColors.m"; path = "../UIColor+AppColors.m"; sourceTree = "<group>"; };
+		278B8EC71BD81ED200C9F541 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		278B8EC91BD8213E00C9F541 /* PRKDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PRKDataManager.h; path = ../PRKDataManager.h; sourceTree = "<group>"; };
+		278B8ECA1BD8213E00C9F541 /* PRKDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PRKDataManager.m; path = ../PRKDataManager.m; sourceTree = "<group>"; };
+		278B8ECC1BD8216700C9F541 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +68,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				278B8ECD1BD8216700C9F541 /* CoreLocation.framework in Frameworks */,
+				278B8EC81BD81ED200C9F541 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,8 +93,8 @@
 		278B8E841BD80DBA00C9F541 = {
 			isa = PBXGroup;
 			children = (
-				278B8EC31BD819D400C9F541 /* UIColor+AppColors.h */,
-				278B8EC41BD819D400C9F541 /* UIColor+AppColors.m */,
+				278B8ECC1BD8216700C9F541 /* CoreLocation.framework */,
+				278B8EC71BD81ED200C9F541 /* MapKit.framework */,
 				278B8E8F1BD80DBA00C9F541 /* Parkable */,
 				278B8EA91BD80DBA00C9F541 /* ParkableTests */,
 				278B8EB41BD80DBA00C9F541 /* ParkableUITests */,
@@ -110,6 +119,8 @@
 				278B8E941BD80DBA00C9F541 /* AppDelegate.m */,
 				278B8E961BD80DBA00C9F541 /* ViewController.h */,
 				278B8E971BD80DBA00C9F541 /* ViewController.m */,
+				278B8EC91BD8213E00C9F541 /* PRKDataManager.h */,
+				278B8ECA1BD8213E00C9F541 /* PRKDataManager.m */,
 				278B8E991BD80DBA00C9F541 /* Main.storyboard */,
 				278B8E9C1BD80DBA00C9F541 /* Assets.xcassets */,
 				278B8E9E1BD80DBA00C9F541 /* LaunchScreen.storyboard */,
@@ -122,6 +133,7 @@
 		278B8E901BD80DBA00C9F541 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				278B8EC61BD81EBE00C9F541 /* Categories */,
 				278B8E911BD80DBA00C9F541 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -143,6 +155,15 @@
 				278B8EB71BD80DBA00C9F541 /* Info.plist */,
 			);
 			path = ParkableUITests;
+			sourceTree = "<group>";
+		};
+		278B8EC61BD81EBE00C9F541 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				278B8EC31BD819D400C9F541 /* UIColor+AppColors.h */,
+				278B8EC41BD819D400C9F541 /* UIColor+AppColors.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -276,6 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				278B8E981BD80DBA00C9F541 /* ViewController.m in Sources */,
+				278B8ECB1BD8213E00C9F541 /* PRKDataManager.m in Sources */,
 				278B8EC51BD819D400C9F541 /* UIColor+AppColors.m in Sources */,
 				278B8E951BD80DBA00C9F541 /* AppDelegate.m in Sources */,
 				278B8E921BD80DBA00C9F541 /* main.m in Sources */,

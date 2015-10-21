@@ -7,7 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 
-@interface PRKDataManager : NSObject
+@interface PRKDataManager : NSObject <CLLocationManagerDelegate>
+
++ (instancetype)sharedDataManager;
+
++ (BOOL)locationPermissionHasBeenRequested;
+
++ (void)requestedLocationPermission;
+
++ (CLLocationManager *)locationManager;
 
 @end

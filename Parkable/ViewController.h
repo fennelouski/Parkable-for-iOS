@@ -7,8 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
+#import "PRKDataManager.h"
 
 @interface ViewController : UIViewController
+
+
+@property (nonatomic, strong) MKMapView *mapView;
 
 
 @end

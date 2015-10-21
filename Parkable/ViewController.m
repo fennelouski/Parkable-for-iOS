@@ -46,6 +46,7 @@ static CGFloat const footerHeight = 50.0f;
 	// Do any additional setup after loading the view, typically from a nib.
 	
 	
+	[self.view addSubview:self.mapView];
 	[self.view addSubview:self.footerToolbar];
 	[self.view addSubview:self.statusBarBackground];
 	self.view.backgroundColor = [UIColor appColor];
@@ -54,6 +55,14 @@ static CGFloat const footerHeight = 50.0f;
 	dispatch_once(&onceToken, ^{
 		[self performSelector:@selector(checkForFrameChange) withObject:self afterDelay:0.36f];
 	});
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
+	if (![PRKDataManager locationPermissionHasBeenRequested]) {
+		[self alertUserToLocationServiceRequest];
+	}
 }
 
 - (void)checkForFrameChange {
@@ -70,10 +79,41 @@ static CGFloat const footerHeight = 50.0f;
 	
 	self.statusBarBackground.frame = [self statusBarBackgroundFrame];
 	self.footerToolbar.frame = [self footerToolbarFrame];
+	self.mapView.frame = [self mapViewFrame];
 }
 
 
 
+
+
+#pragma mark - Alerts
+
+
+- (void)alertUserToLocationServiceRequest {
+	UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Parkable would like to use your location"
+																			 message:@"Your location will be used"
+																	  preferredStyle:UIAlertControllerStyleAlert];
+	
+	UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Yes"
+													   style:UIAlertActionStyleDefault
+													 handler:^(UIAlertAction *action) {
+														 [[PRKDataManager locationManager] requestWhenInUseAuthorization];
+													 }];
+	[alertController addAction:okAction];
+	
+	UIAlertAction *noAction = [UIAlertAction actionWithTitle:@"Later"
+													   style:UIAlertActionStyleDestructive
+													 handler:^(UIAlertAction *action) {
+														 NSLog(@"The user will not grand permission");
+													 }];
+	[alertController addAction:noAction];
+	
+	[self presentViewController:alertController
+					   animated:YES
+					 completion:^{
+						 
+					 }];
+}
 
 
 
@@ -130,6 +170,23 @@ static CGFloat const footerHeight = 50.0f;
 	return _findSpotButton;
 }
 
+- (MKMapView *)mapView {
+	if (!_mapView) {
+		_mapView = [[MKMapView alloc] initWithFrame:[self mapViewFrame]];
+		_mapView.showsUserLocation = YES;
+		_mapView.showsCompass = YES;
+		_mapView.showsPointsOfInterest = YES;
+		_mapView.mapType = MKMapTypeStandard;
+	}
+	
+	return _mapView;
+}
+
+- (CGRect)mapViewFrame {
+	CGRect frame = self.view.bounds;
+	
+	return frame;
+}
 
 
 
