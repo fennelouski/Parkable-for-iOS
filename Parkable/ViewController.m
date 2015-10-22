@@ -214,12 +214,34 @@ static CGFloat const footerHeight = 50.0f;
 #pragma mark - Button Actions
 
 - (void)plusButtonTouched:(UIBarButtonItem *)plusButton {
-	NSLog(@"Plus Button Touched");
+	NSString *title = @"Submit spot from current location?";
+	NSString *message = @"This interface needs to be designed";
+	UIAlertController *submitController = [UIAlertController alertControllerWithTitle:title
+																			  message:message
+																	   preferredStyle:UIAlertControllerStyleAlert];
+	
+	UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+														   style:UIAlertActionStyleCancel
+														 handler:^(UIAlertAction *action) {
+															 
+														 }];
+	[submitController addAction:cancelAction];
+	
+	UIAlertAction *submitNewSpotAction = [UIAlertAction actionWithTitle:@"Submit"
+																  style:UIAlertActionStyleDefault
+																handler:^(UIAlertAction * _Nonnull action) {
+																	NSLog(@"This is where the proper action should be called to submit a new handicap parking spot.");
+																}];
+	[submitController addAction:submitNewSpotAction];
+	
+	[self presentViewController:submitController
+					   animated:YES
+					 completion:^{
+						 
+					 }];
 }
 
 - (void)findSpotButtonTouched:(UIBarButtonItem *)findSpotButton {
-	NSLog(@"Find Spot Button Touched");
-	
 	UIAlertController *addressController = [UIAlertController alertControllerWithTitle:@"Where would you like to go?"
 																			   message:@"Enter the address where you would like to park near"
 																		preferredStyle:UIAlertControllerStyleAlert];
