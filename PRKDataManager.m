@@ -98,6 +98,24 @@ static NSString * const lastLocationLongitudeKey = @"lastLocationLongitudeKey";
 	}
 }
 
++ (void)useCurrentLocationCoordinate {
+	[[PRKDataManager sharedDataManager] useCurrentLocationCoordinate];
+}
+
+- (void)useCurrentLocationCoordinate {
+	_currentLocationCoordinate = self.locationManager.location.coordinate;
+	NSDictionary *addressDict = @{(NSString *)kABPersonAddressStreetKey : @"Current Location"};
+	_destinationPlaceMark = [[MKPlacemark alloc] initWithCoordinate:_currentLocationCoordinate addressDictionary:addressDict];
+	if (self.locationManager.location.coordinate.latitude != 0 && self.locationManager.location.coordinate.longitude != 0) {
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		CLLocationDegrees latitude = self.locationManager.location.coordinate.latitude;
+		CLLocationDegrees longitude = self.locationManager.location.coordinate.longitude;
+		
+		[defaults setFloat:latitude forKey:lastLocationLatitudeKey];
+		[defaults setFloat:longitude forKey:lastLocationLongitudeKey];
+	}
+}
+
 
 #pragma mark - Destination Information
 

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
+#import <AddressBook/AddressBook.h>
 
 @interface PRKDataManager : NSObject <CLLocationManagerDelegate>
 
@@ -35,6 +36,7 @@
 
 
 + (void)findLocationCoordinatesForString:(NSString *)addressString;
++ (void)useCurrentLocationCoordinate;
 
 + (CLPlacemark *)destinationPlaceMark;
 + (NSString *)destinationName;

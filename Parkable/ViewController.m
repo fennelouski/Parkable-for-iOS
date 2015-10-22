@@ -242,6 +242,15 @@ static CGFloat const footerHeight = 50.0f;
 														 }];
 	[addressController addAction:searchAction];
 	
+	UIAlertAction *userLocationAction = [UIAlertAction actionWithTitle:@"Use Current Location"
+																 style:UIAlertActionStyleDefault
+															   handler:^(UIAlertAction * _Nonnull action) {
+																   [PRKDataManager useCurrentLocationCoordinate];
+																   [self.mapView removeAnnotations:self.mapView.annotations];
+																   [self checkForDestinationUpdate];
+															   }];
+	[addressController addAction:userLocationAction];
+	
 	UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
 														   style:UIAlertActionStyleCancel
 														 handler:^(UIAlertAction *action) {
