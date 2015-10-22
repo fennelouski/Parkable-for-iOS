@@ -447,6 +447,8 @@ static CGFloat const footerHeight = 50.0f;
 	if(!annotationView) {
 		annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
 		annotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+		MKPinAnnotationView *pinAnnotationView = (MKPinAnnotationView *)annotationView;
+		pinAnnotationView.pinColor = MKPinAnnotationColorPurple;
 	} else {
 		annotationView.annotation = annotation;
 	}
@@ -516,6 +518,12 @@ static CGFloat const footerHeight = 50.0f;
 
 
 
+
+
+
+
+
+
 #pragma mark - Location Manager Delegate
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
@@ -526,6 +534,11 @@ static CGFloat const footerHeight = 50.0f;
 		self.mapView.region = MKCoordinateRegionMake(currentLocation.coordinate, MKCoordinateSpanMake(0.1f, 0.1f));
 	}
 }
+
+
+
+
+
 
 
 
@@ -543,6 +556,11 @@ static CGFloat const footerHeight = 50.0f;
 	
 	return YES;
 }
+
+
+
+
+
 
 
 
