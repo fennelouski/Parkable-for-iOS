@@ -203,7 +203,6 @@ static CGFloat const footerHeight = 50.0f;
 
 - (CGRect)mapViewFrame {
 	CGRect frame = self.view.bounds;
-	frame.size.height -= footerHeight;
 	
 	return frame;
 }
