@@ -182,7 +182,7 @@ static CGFloat const footerHeight = 50.0f;
 		_mapView = [[MKMapView alloc] initWithFrame:[self mapViewFrame]];
 		_mapView.showsUserLocation = YES;
 		_mapView.showsCompass = YES;
-		_mapView.showsPointsOfInterest = YES;
+		_mapView.showsPointsOfInterest = NO;
 		_mapView.mapType = MKMapTypeStandard;
 		_mapView.delegate = self;
 		
@@ -245,7 +245,7 @@ static CGFloat const footerHeight = 50.0f;
 	UIAlertController *addressController = [UIAlertController alertControllerWithTitle:@"Where would you like to go?"
 																			   message:@"Enter the address where you would like to park near"
 																		preferredStyle:UIAlertControllerStyleAlert];
-	[addressController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+	[addressController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
 		_alertControllerTextField = textField;
 		textField.placeholder = @"Address";
 		textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
@@ -266,7 +266,7 @@ static CGFloat const footerHeight = 50.0f;
 	
 	UIAlertAction *userLocationAction = [UIAlertAction actionWithTitle:@"Use Current Location"
 																 style:UIAlertActionStyleDefault
-															   handler:^(UIAlertAction * _Nonnull action) {
+															   handler:^(UIAlertAction *action) {
 																   [PRKDataManager useCurrentLocationCoordinate];
 																   [self.mapView removeAnnotations:self.mapView.annotations];
 																   [self checkForDestinationUpdate];

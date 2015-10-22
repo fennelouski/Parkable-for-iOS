@@ -77,8 +77,8 @@ static NSString * const lastLocationLongitudeKey = @"lastLocationLongitudeKey";
 }
 
 - (void)findLocationCoordinatesForString:(NSString *)addressString {
-	CLGeocoder *geocoder = [[CLGeocoder alloc] init];
 	_destinationPlaceMark = nil;
+	CLGeocoder *geocoder = [[CLGeocoder alloc] init];
 	_destinationName = addressString;
 	[geocoder geocodeAddressString:addressString
 				 completionHandler:^(NSArray* placemarks, NSError* error) {
