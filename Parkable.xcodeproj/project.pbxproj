@@ -20,6 +20,7 @@
 		278B8ECB1BD8213E00C9F541 /* PRKDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 278B8ECA1BD8213E00C9F541 /* PRKDataManager.m */; settings = {ASSET_TAGS = (); }; };
 		278B8ECD1BD8216700C9F541 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 278B8ECC1BD8216700C9F541 /* CoreLocation.framework */; };
 		278B8ED31BD8369C00C9F541 /* PRKSpot.m in Sources */ = {isa = PBXBuildFile; fileRef = 278B8ED21BD8369C00C9F541 /* PRKSpot.m */; settings = {ASSET_TAGS = (); }; };
+		278B8ED71BD860A900C9F541 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 278B8ED61BD860A900C9F541 /* AddressBook.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		278B8ECC1BD8216700C9F541 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		278B8ED11BD8369C00C9F541 /* PRKSpot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PRKSpot.h; path = ../PRKSpot.h; sourceTree = "<group>"; };
 		278B8ED21BD8369C00C9F541 /* PRKSpot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PRKSpot.m; path = ../PRKSpot.m; sourceTree = "<group>"; };
+		278B8ED61BD860A900C9F541 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				278B8ED71BD860A900C9F541 /* AddressBook.framework in Frameworks */,
 				278B8ECD1BD8216700C9F541 /* CoreLocation.framework in Frameworks */,
 				278B8EC81BD81ED200C9F541 /* MapKit.framework in Frameworks */,
 			);
@@ -96,6 +99,7 @@
 		278B8E841BD80DBA00C9F541 = {
 			isa = PBXGroup;
 			children = (
+				278B8ED61BD860A900C9F541 /* AddressBook.framework */,
 				278B8ECC1BD8216700C9F541 /* CoreLocation.framework */,
 				278B8EC71BD81ED200C9F541 /* MapKit.framework */,
 				278B8E8F1BD80DBA00C9F541 /* Parkable */,
@@ -464,6 +468,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Parkable/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nathanfennel.Parkable;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -475,6 +480,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Parkable/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nathanfennel.Parkable;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import "PRKDataManager.h"
+#import <CoreLocation/CoreLocation.h>
+#import <AddressBook/AddressBook.h>
 
-@interface ViewController : UIViewController <UITextFieldDelegate>
+@interface ViewController : UIViewController <UITextFieldDelegate, MKMapViewDelegate, CLLocationManagerDelegate>
 
 
 @property (nonatomic, strong) MKMapView *mapView;

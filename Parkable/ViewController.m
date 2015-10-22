@@ -44,6 +44,7 @@ static CGFloat const footerHeight = 50.0f;
 	MKPointAnnotation *_destinationPointAnnotation;
 	NSMutableArray *_spotsNearDestination;
 	BOOL _animateEllipses;
+	BOOL _didNavigateToUserLocation;
 }
 
 - (void)viewDidLoad {
@@ -183,6 +184,18 @@ static CGFloat const footerHeight = 50.0f;
 		_mapView.showsCompass = YES;
 		_mapView.showsPointsOfInterest = YES;
 		_mapView.mapType = MKMapTypeStandard;
+		_mapView.delegate = self;
+		
+		[PRKDataManager locationManager].delegate = self;
+		
+		if ([PRKDataManager locationPermissionHasBeenRequested]) {
+			MKCoordinateRegion region = [PRKDataManager lastLocation];
+			if (region.center.latitude == 0 || region.center.longitude == 0) {
+				
+			} else {
+				[_mapView setRegion:region];
+			}
+		}
 	}
 	
 	return _mapView;
@@ -190,6 +203,7 @@ static CGFloat const footerHeight = 50.0f;
 
 - (CGRect)mapViewFrame {
 	CGRect frame = self.view.bounds;
+	frame.size.height -= footerHeight;
 	
 	return frame;
 }
@@ -208,7 +222,7 @@ static CGFloat const footerHeight = 50.0f;
 	NSLog(@"Find Spot Button Touched");
 	
 	UIAlertController *addressController = [UIAlertController alertControllerWithTitle:@"Where would you like to go?"
-																			   message:@"Please enter the address where you would like to park near"
+																			   message:@"Enter the address where you would like to park near"
 																		preferredStyle:UIAlertControllerStyleAlert];
 	[addressController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
 		_alertControllerTextField = textField;
@@ -307,7 +321,9 @@ static CGFloat const footerHeight = 50.0f;
 			point.coordinate = spot.coordinate;
 			point.title = spot.title;
 			point.subtitle = [NSString stringWithFormat:@"%zd Spot%@", spot.numberOfSpots, spot.numberOfSpots == 1 ? @"" : @"s"];
-			[self.mapView addAnnotation:point];
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[self.mapView addAnnotation:point];
+			});
 			[_spotsNearDestination addObject:point];
 			totalNumberOfSpots += spot.numberOfSpots;
 		}
@@ -339,8 +355,8 @@ static CGFloat const footerHeight = 50.0f;
 	MKCoordinateSpan locationSpan;
 	locationSpan.latitudeDelta = upper.latitude - lower.latitude;
 	locationSpan.longitudeDelta = upper.longitude - lower.longitude;
-	locationSpan.latitudeDelta *= 1.1f;
-	locationSpan.longitudeDelta *= 1.1f;
+	locationSpan.latitudeDelta *= 1.3f;
+	locationSpan.longitudeDelta *= 1.3f;
 	CLLocationCoordinate2D locationCenter;
 	locationCenter.latitude = (upper.latitude + lower.latitude) / 2;
 	locationCenter.longitude = (upper.longitude + lower.longitude) / 2;
@@ -379,6 +395,107 @@ static CGFloat const footerHeight = 50.0f;
 }
 
 
+
+
+
+
+
+
+#pragma mark - Map View Delegate
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
+	if ([annotation isEqual:_destinationPointAnnotation]) {
+		return nil;
+	}
+	
+	if (annotation == mapView.userLocation) {
+		return nil;
+	}
+	
+	static NSString *identifier = @"SpotsIdentifier";
+	MKAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+	if(!annotationView) {
+		annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+		annotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+	} else {
+		annotationView.annotation = annotation;
+	}
+	
+	annotationView.enabled = YES;
+	annotationView.canShowCallout = YES;
+	
+	return annotationView;
+}
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
+	NSString *title = view.annotation.title;
+	NSString *message = @"Get driving directions to this spot?";
+	UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
+																			 message:message
+																	  preferredStyle:UIAlertControllerStyleAlert];
+	
+	UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+														   style:UIAlertActionStyleCancel
+														 handler:^(UIAlertAction * _Nonnull action) {
+															 
+														 }];
+	[alertController addAction:cancelAction];
+	
+	NSString *appleMapsTitle = @"Maps";
+	
+	if ([[UIApplication sharedApplication] canOpenURL: [NSURL URLWithString:@"comgooglemaps://"]]) {
+		UIAlertAction *googleMapsAction = [UIAlertAction actionWithTitle:@"Google Maps"
+																   style:UIAlertActionStyleDefault
+																 handler:^(UIAlertAction *action) {
+																	 NSString *googleMapsURLString = [NSString stringWithFormat:@"comgooglemaps://?saddr=%f,%f&daddr=%f,%f&directionsmode=driving",
+																									  self.mapView.userLocation.coordinate.latitude,
+																									  self.mapView.userLocation.coordinate.longitude,
+																									  view.annotation.coordinate.latitude,
+																									  view.annotation.coordinate.longitude];
+																	 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:googleMapsURLString]];
+																 }];
+		[alertController addAction:googleMapsAction];
+		
+		appleMapsTitle = @"Apple Maps";
+	}
+	
+	UIAlertAction *appleMapsAction = [UIAlertAction actionWithTitle:appleMapsTitle
+															  style:UIAlertActionStyleDefault
+															handler:^(UIAlertAction *action) {
+																MKMapItem *currentLocationMapItem = [MKMapItem mapItemForCurrentLocation];
+																NSDictionary *addressDict = @{(NSString *)kABPersonAddressStreetKey : title};
+																MKPlacemark *destinationPlaceMark = [[MKPlacemark alloc] initWithCoordinate:view.annotation.coordinate addressDictionary:addressDict];
+																MKMapItem *mapItem = [[MKMapItem alloc] initWithPlacemark:destinationPlaceMark];
+																
+																NSDictionary *launchOptions = @{MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving};
+																[MKMapItem openMapsWithItems:@[currentLocationMapItem, mapItem]
+																			   launchOptions:launchOptions];
+															}];
+	[alertController addAction:appleMapsAction];
+	
+	[self presentViewController:alertController
+					   animated:YES
+					 completion:^{
+						 
+					 }];
+}
+
+
+
+
+
+
+
+#pragma mark - Location Manager Delegate
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
+	if (!_didNavigateToUserLocation) {
+		CLLocation *currentLocation = [locations firstObject];
+		_didNavigateToUserLocation = YES;
+		
+		self.mapView.region = MKCoordinateRegionMake(currentLocation.coordinate, MKCoordinateSpanMake(0.1f, 0.1f));
+	}
+}
 
 
 

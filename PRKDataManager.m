@@ -11,6 +11,9 @@
 
 static NSString * const locationPermissionHasBeenRequestedKey = @"locationPermissionHasBeenRequestedKey";
 
+static NSString * const lastLocationLatitudeKey = @"lastLocationLatitudeKey";
+static NSString * const lastLocationLongitudeKey = @"lastLocationLongitudeKey";
+
 @interface PRKDataManager ()
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
@@ -84,6 +87,15 @@ static NSString * const locationPermissionHasBeenRequestedKey = @"locationPermis
 			_destinationPlaceMark = aPlacemark;
 		}
 	}];
+	
+	if (self.locationManager.location.coordinate.latitude != 0 && self.locationManager.location.coordinate.longitude != 0) {
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		CLLocationDegrees latitude = self.locationManager.location.coordinate.latitude;
+		CLLocationDegrees longitude = self.locationManager.location.coordinate.longitude;
+		
+		[defaults setFloat:latitude forKey:lastLocationLatitudeKey];
+		[defaults setFloat:longitude forKey:lastLocationLongitudeKey];
+	}
 }
 
 
@@ -110,6 +122,21 @@ static NSString * const locationPermissionHasBeenRequestedKey = @"locationPermis
 
 
 
++ (MKCoordinateRegion)lastLocation {
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	CLLocationDegrees latitude = [defaults floatForKey:lastLocationLatitudeKey];
+	CLLocationDegrees longitude = [defaults floatForKey:lastLocationLongitudeKey];
+	
+	CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(latitude, longitude);
+	
+	
+	MKCoordinateSpan span = MKCoordinateSpanMake(0.01f, 0.01f);
+	
+	MKCoordinateRegion region = MKCoordinateRegionMake(coordinate, span);
+	
+	return region;
+}
+
 
 #pragma mark - Parking Spots
 
@@ -118,19 +145,19 @@ static NSString * const locationPermissionHasBeenRequestedKey = @"locationPermis
 }
 
 - (NSArray *)spotsNearDestination {
-	if (numberOfTries < 20) {
+	if (numberOfTries < 10) {
 		numberOfTries ++;
 		return @[];
 	}
 	
 	PRKSpot *spot1 = [PRKSpot spotWithCoordinate:CLLocationCoordinate2DMake(42.3595269, -71.0653017)];
-	spot1.title = @"19 Myrtle St., \nBeacon Hill Area, 02114";
+	spot1.title = @"19 Myrtle St., Beacon Hill Area, 02114";
 	spot1.numberOfSpots = 2;
 	PRKSpot *spot2 = [PRKSpot spotWithCoordinate:CLLocationCoordinate2DMake(42.3650128, -71.0534021)];
-	spot2.title = @"348	Hanover St., \nNorth End Boston, 02113";
+	spot2.title = @"348 Hanover St., North End Boston, 02113";
 	spot2.numberOfSpots = 1;
 	PRKSpot *spot3 = [PRKSpot spotWithCoordinate:CLLocationCoordinate2DMake(42.361725, -71.052331)];
-	spot3.title = @"101	Atlantic Ave., \nNorth End Boston, 02110";
+	spot3.title = @"101 Atlantic Ave., North End Boston, 02110";
 	spot3.numberOfSpots = 2;
 	
 	NSArray *dummyData = @[spot1, spot2, spot3];

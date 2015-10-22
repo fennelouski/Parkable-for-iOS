@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import <MapKit/MapKit.h>
 
 @interface PRKDataManager : NSObject <CLLocationManagerDelegate>
 
@@ -39,6 +40,9 @@
 + (NSString *)destinationName;
 
 + (NSArray *)spotsNearDestination;
+
+
++ (MKCoordinateRegion)lastLocation;
 
 
 
